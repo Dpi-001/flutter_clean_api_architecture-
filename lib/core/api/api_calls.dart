@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_application_3/constants/api_constants.dart';
+import 'package:flutter_application_3/core/api/dio_exception.dart';
 
 class ApiCalls {
   //* get Method
@@ -13,7 +14,9 @@ class ApiCalls {
       final response = await dio.get(endpoint);
       return response.data;
     } on DioException catch (e) {
-      throw DioException(requestOptions: e.requestOptions);
+      throw CustomDioException.fromDioError(
+        e,
+      ); // CustomDioException is a class that handles dio exceptions
     }
   }
 }
