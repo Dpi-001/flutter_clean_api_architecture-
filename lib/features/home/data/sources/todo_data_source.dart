@@ -1,3 +1,5 @@
+import 'package:dartz/dartz_unsafe.dart';
+import 'package:flutter_application_3/core/api/api_calls.dart';
 import 'package:flutter_application_3/features/home/data/models/todo.dart';
 
 abstract class TodoDataSource {
@@ -10,11 +12,17 @@ abstract class TodoDataSource {
 
 class TodoDataSourceImpl extends TodoDataSource {
   // This class implements the TodoDataSource interface and provides the actual implementation for fetching todos.
+  final ApiCalls apiCalls;
+  TodoDataSourceImpl({required this.apiCalls});
 
   @override
-  Future<List<Todo>> fetchTodo() {
+  Future<List<Todo>> fetchTodo() async {
     // Simulating a network call with a delay
-    throw UnimplementedError();
+    final result = await apiCalls.getData(endpoint: "todo");
+    return result
+        .map((todo) => Todo.fromMap(todo))
+        .toList(); //mapping the result to a list of Todo objects
+    //  return result.map((todo) => Todo.fromMap(todo))    .toList(); in loop can be show
 
     // Returning a hardcoded list of Todo objects
   }
