@@ -15,7 +15,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       // TODO: implement event handler
     });
 
-    on<FetechTodoEvent>((event, emit) async {
+    on<FetchTodoEvent>((event, emit) async {
       final result = await todoRepository.fetchTodo();
 
       result.fold(
