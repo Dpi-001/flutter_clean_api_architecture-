@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (ctx) => TodoBloc(getIt<TodoRepository>())),
-      ],
+      ], //simply we have cut the materialapp then added MultiBlocProvider
       child: MaterialApp(
         title: 'Todo App',
         theme: ThemeData(
