@@ -4,6 +4,7 @@ import 'package:flutter_application_3/features/home/presentation/screens/home_sc
 
 void main() {
   serviceLocator();
+  // Initialize the service locator
   runApp(const MyApp());
 }
 
