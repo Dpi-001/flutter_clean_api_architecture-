@@ -18,12 +18,13 @@ class TodoDataSourceImpl extends TodoDataSource {
   @override
   Future<List<Todo>> fetchTodo() async {
     // Simulating a network call with a delay
-    final result = await apiCalls.getData(endpoint: "todo");
+    final result = await apiCalls.getData(endpoint: "todo") as List;
+    // Fetching data from the API using the ApiCalls class
     return result
         .map((todo) => Todo.fromMap(todo))
         .toList(); //mapping the result to a list of Todo objects
     //  return result.map((todo) => Todo.fromMap(todo))    .toList(); in loop can be show
 
-    // Returning a hardcoded list of Todo objects
+    // Returning a hardcoded list of Todo objectsa
   }
 }
