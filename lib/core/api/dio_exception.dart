@@ -63,5 +63,10 @@ class CustomDioException implements Exception {
         return "Unexpected error occurred (Status Code: $statusCode).";
     }
   }
+
+  @override
+  String toString() {
+    return message ?? "An unexpected error occurred.";
+  }
 }
 // from https://qtext.io/qvjx
