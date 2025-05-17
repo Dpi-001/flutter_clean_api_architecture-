@@ -3,13 +3,21 @@ import 'package:flutter_application_3/features/home/data/repositories/todo_repos
 import 'package:flutter_application_3/features/home/data/sources/todo_data_source.dart';
 import 'package:get_it/get_it.dart';
 
-final GetIt getIt = GetIt.instance;
+GetIt getIt = GetIt.instance;
 // Service locator for dependency injection
 serviceLocator() {
-  getIt.registerLazySingleton<ApiCalls>(getIt<ApiCalls>);
+  getIt.registerLazySingleton<ApiCalls>(() => ApiCalls());
   // datasourceregisterLazySingleton is used to register a singleton instance of a class
 
-  getIt.registerLazySingleton<TodoDataSource>(getIt<TodoDataSource>);
+  getIt.registerLazySingleton<TodoDataSource>(
+    () => TodoDataSourceImpl(apiCalls: getIt<ApiCalls>()),
+  );
 
-  getIt.registerLazySingleton<TodoRepository>(getIt<TodoRepository>);
+  getIt.registerLazySingleton<TodoRepository>(
+    () => TodoRepositoryImpl(todoDataSource: getIt<TodoDataSource>()),
+  );
+  //registerLazySingleton is used to register a singleton instance of a class
+  //getIt<TodoDataSource>() is used to resolve the dependency of TodoDataSource
+  // Registering the TodoRepositoryImpl with the TodoDataSource
+  // This allows the repository to use the data source for fetching data
 }
