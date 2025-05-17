@@ -29,7 +29,9 @@ class Todo {
       title: map['title'] as String,
       description: map['description'] as String,
       isCompleted:
-          map['completed'] as bool, // 'completed' is the key in the API
+          map['completed'] == 1
+              ? true
+              : false, // 'completed' is the key in the API
     );
   }
 
