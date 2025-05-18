@@ -16,13 +16,15 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     });
 
     on<FetchTodoEvent>((event, emit) async {
+      emit(FetchTodoLoading()); // emit the loading state
+      // Fetch the todos from the repository
       final result = await todoRepository.fetchTodo();
 
       result.fold(
         (error) => emit(FetchTodoFail(error.errorMessage)),
-        (success) => (FetchTodoLoaded(
-          success,
-        )), //from state we have FetchtodoLoaded is define
+        (success) => emit(
+          FetchTodoLoaded(success),
+        ), //from state we have FetchtodoLoaded is define
       );
     });
   }
