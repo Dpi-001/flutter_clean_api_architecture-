@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               },
-              itemCount: state.todo.length,
+              itemCount: state.todo.length, // Use the length of the todo list
             );
           } else {
             return Center(child: CircularProgressIndicator());
