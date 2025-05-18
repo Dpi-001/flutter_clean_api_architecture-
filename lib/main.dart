@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/constants/app_routes.dart';
 import 'package:flutter_application_3/core/services/service_locator.dart';
 import 'package:flutter_application_3/features/home/data/repositories/todo_repository.dart';
 import 'package:flutter_application_3/features/home/presentation/blocs/bloc/todo_bloc.dart';
+import 'package:flutter_application_3/features/home/presentation/screens/add_todo_screen.dart';
 import 'package:flutter_application_3/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,8 +31,8 @@ class MyApp extends StatelessWidget {
         ),
         home: HomeScreen(),
         routes: {
-          AppRoutes.home: (ctx) => HomeScreen(),
           AppRoutes.addTodoScreen: (ctx) => AddTodoScreen(),
+          AppRoutes.homeScreen: (ctx) => HomeScreen(),
           // Add other routes here if needed
         },
       ),
