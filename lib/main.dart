@@ -28,6 +28,11 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: HomeScreen(),
+        routes: {
+          AppRoutes.home: (ctx) => HomeScreen(),
+          AppRoutes.addTodoScreen: (ctx) => AddTodoScreen(),
+          // Add other routes here if needed
+        },
       ),
     );
   }
