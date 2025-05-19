@@ -1,4 +1,5 @@
 import 'package:dartz/dartz_unsafe.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_application_3/core/api/api_calls.dart';
 import 'package:flutter_application_3/features/home/data/models/todo.dart';
 
@@ -26,5 +27,12 @@ class TodoDataSourceImpl extends TodoDataSource {
     //  return result.map((todo) => Todo.fromMap(todo))    .toList(); in loop can be show
 
     // Returning a hardcoded list of Todo objectsa
+  }
+
+  @override
+  Future<String> storeTodo({required Map<String, dynamic> data}) async {
+    // Simulating a network call with a delay
+    final response = await apiCalls.sendData(endpoint: "todo", data: data);
+    return response('message');
   }
 }
