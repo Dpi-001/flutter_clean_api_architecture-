@@ -7,7 +7,11 @@ abstract class TodoRepository {
   //mainly used for sucess and failure of api calls
   // This is an abstract class that defines the contract for a Todo repository.
   // It can be implemented by different classes to provide various data sources (e.g., local, remote).
-  Future<Either<ApiError, List<Todo>>> fetchTodo(); // either from dartz package
+  Future<Either<ApiError, List<Todo>>> fetchTodo();
+  // either from dartz package
+  Future<Either<ApiError, String>> storeTodo({
+    required Map<String, dynamic> data,
+  });
 }
 
 class TodoRepositoryImpl extends TodoRepository {
@@ -26,6 +30,18 @@ class TodoRepositoryImpl extends TodoRepository {
       return Left(
         ApiError(errorMessage: e.toString()),
       ); // Return an ApiError wrapped in a Left
+    }
+  }
+
+  @override
+  Future<Either<ApiError, String>> storeTodo({
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      final result = await todoDataSource.storeTodo(data: data);
+      return right(result);
+    } catch (e) {
+      return left(ApiError(errorMessage: e.toString()));
     }
   }
 }
