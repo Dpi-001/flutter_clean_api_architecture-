@@ -19,4 +19,18 @@ class ApiCalls {
       ); // CustomDioException is a class that handles dio exceptions
     }
   }
+
+  //send data
+  sendData({
+    required String endpoint,
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      final Dio dio = Dio(BaseOptions(baseUrl: ApiConstants.apiBaseUrl));
+      final response = await dio.post(endpoint, data: data);
+      return response.data; //response.data will show the sucess info
+    } on DioException catch (e) {
+      throw CustomDioException.fromDioError(e);
+    }
+  }
 }
