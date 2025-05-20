@@ -7,8 +7,9 @@ abstract class TodoDataSource {
   // This is an abstract class that defines the contract for a Todo data source.
   // It can be implemented by different classes to provide various data sources (e.g., local, remote).
 
-  Future<List<Todo>>
-  fetchTodo(); // Method to fetch a list of todos from the data source.
+  Future<List<Todo>> fetchTodo();
+  // Method to fetch a list of todos from the data source.
+  storeTodo({required Map<String, dynamic> data});
 }
 
 class TodoDataSourceImpl extends TodoDataSource {

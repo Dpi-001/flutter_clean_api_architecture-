@@ -38,8 +38,8 @@ class TodoRepositoryImpl extends TodoRepository {
     required Map<String, dynamic> data,
   }) async {
     try {
-      final result = await todoDataSource.storeTodo(data: data); //error
-      return right(result);
+      final result = await todoDataSource.storeTodo(data: data);
+      return Right(result);
     } catch (e) {
       return left(ApiError(errorMessage: e.toString()));
     }

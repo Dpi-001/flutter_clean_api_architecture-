@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_application_3/features/home/data/models/todo.dart';
 import 'package:flutter_application_3/features/home/data/repositories/todo_repository.dart';
 import 'package:meta/meta.dart';
@@ -25,6 +26,16 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         (success) => emit(
           FetchTodoLoaded(success),
         ), //from state we have FetchtodoLoaded is define
+      );
+    });
+    on<AddTodoEvent>((event, emit) async {
+      emit(AddTodoLoadingState());
+      final response = await todoRepository.storeTodo(data: event.formData);
+      response.fold(
+        (error) => emit(AddTodoFailState(error.errorMessage)),
+        //to show error message
+        (success) => emit(AddTodSucessState(success)),
+        //to show success message
       );
     });
   }
