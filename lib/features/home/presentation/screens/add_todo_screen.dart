@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_3/features/home/presentation/blocs/bloc/todo_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddTodoScreen extends StatefulWidget {
   const AddTodoScreen({super.key});
@@ -15,79 +17,108 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Add Todo")),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            spacing: 20,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Title"),
-              TextFormField(
-                onSaved: (newValue) {
-                  setState(() {
-                    title = newValue;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please enter a title";
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Write the title",
-                  label: Text("Title"),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                ),
+      body: BlocListener<TodoBloc, TodoState>(
+        listener: (context, state) {
+          // TODO: implement listener
+          if (state is AddTodSucessState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.green,
               ),
-              Text("Description"),
-              TextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please enter a title";
-                  }
-                  return null;
-                },
-                minLines: 6,
-                maxLines: 10,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Write the description",
-                  label: Text("Description"),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                ),
+            );
+          } else if (state is AddTodoFailState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
               ),
-              Row(
-                spacing: 20,
-                children: [
-                  FilledButton.tonal(
-                    onPressed: () {
-                      if (!_formKey.currentState!.validate()) {
-                        return;
-                      }
-                      _formKey.currentState!.save();
-                      final Map<String, dynamic> formData = {
-                        "title": title,
-                        "description": description, // to api map
-                      };
-                    },
-                    child: Text("Add"),
+            );
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              spacing: 20,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Title"),
+                TextFormField(
+                  onSaved: (newValue) {
+                    setState(() {
+                      title = newValue;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter a title";
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Write the title",
+                    label: Text("Title"),
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
                   ),
-                  FilledButton.tonal(
-                    onPressed: () {},
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(color: Colors.white),
+                ),
+                Text("Description"),
+                TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter a title";
+                    }
+                    return null;
+                  },
+                  minLines: 6,
+                  maxLines: 10,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Write the description",
+                    label: Text("Description"),
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                  ),
+                ),
+                Row(
+                  spacing: 20,
+                  children: [
+                    FilledButton.tonal(
+                      onPressed: () {
+                        if (!_formKey.currentState!.validate()) {
+                          return;
+                        }
+                        _formKey.currentState!.save();
+                        final Map<String, dynamic> formData = {
+                          "title": title,
+                          "description": description, // to api map
+                        };
+                        context.read<TodoBloc>().add(
+                          AddTodoEvent(formData: formData),
+                        );
+                      },
+                      child: Text("Add"),
                     ),
-                    style: FilledButton.styleFrom(backgroundColor: Colors.red),
-                  ),
-                ],
-              ),
-            ],
+                    BlocBuilder<TodoBloc, TodoState>(
+                      builder: (context, state) {
+                        return FilledButton.tonal(
+                          onPressed: () {},
+                          style: FilledButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
