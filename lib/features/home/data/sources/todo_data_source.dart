@@ -9,7 +9,7 @@ abstract class TodoDataSource {
 
   Future<List<Todo>> fetchTodo();
   // Method to fetch a list of todos from the data source.
-  storeTodo({required Map<String, dynamic> data});
+  Future<String> storeTodo({required Map<String, dynamic> data});
 }
 
 class TodoDataSourceImpl extends TodoDataSource {
