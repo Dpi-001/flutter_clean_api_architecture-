@@ -34,7 +34,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       response.fold(
         (error) => emit(AddTodoFailState(error.errorMessage)),
         //to show error message
-        (success) => emit(AddTodSucessState(success)),
+        (success) => emit(AddTodoSucessState(success)),
         //to show success message
       );
     });
