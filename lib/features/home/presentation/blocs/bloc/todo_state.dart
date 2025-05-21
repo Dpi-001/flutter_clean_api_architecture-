@@ -19,9 +19,9 @@ class FetchTodoFail extends TodoState {
 
 class AddTodoLoadingState extends TodoState {}
 
-class AddTodSucessState extends TodoState {
+class AddTodoSucessState extends TodoState {
   final String message;
-  AddTodSucessState(this.message); //to show success message 1 this then event
+  AddTodoSucessState(this.message); //to show success message 1 this then event
 }
 
 class AddTodoFailState extends TodoState {
