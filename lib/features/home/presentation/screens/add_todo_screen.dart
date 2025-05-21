@@ -10,7 +10,7 @@ class AddTodoScreen extends StatefulWidget {
 }
 
 class _AddTodoScreenState extends State<AddTodoScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final addTodoForm = GlobalKey<FormState>();
   String? title;
   String? description;
   @override
@@ -20,14 +20,15 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
       body: BlocListener<TodoBloc, TodoState>(
         listener: (context, state) {
           // TODO: implement listener
-          if (state is AddTodSucessState) {
+          if (state is AddTodoSucessState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),
                 backgroundColor: Colors.green,
               ),
             );
-          } else if (state is AddTodoFailState) {
+          }
+          if (state is AddTodoFailState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),
@@ -39,7 +40,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: Form(
-            key: _formKey,
+            key: addTodoForm,
             child: Column(
               spacing: 20,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -85,35 +86,35 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                 Row(
                   spacing: 20,
                   children: [
-                    FilledButton.tonal(
-                      onPressed: () {
-                        if (!_formKey.currentState!.validate()) {
-                          return;
-                        }
-                        _formKey.currentState!.save();
-                        final Map<String, dynamic> formData = {
-                          "title": title,
-                          "description": description, // to api map
-                        };
-                        context.read<TodoBloc>().add(
-                          AddTodoEvent(formData: formData),
-                        );
-                      },
-                      child: Text("Add"),
-                    ),
                     BlocBuilder<TodoBloc, TodoState>(
                       builder: (context, state) {
                         return FilledButton.tonal(
-                          onPressed: () {},
-                          style: FilledButton.styleFrom(
-                            backgroundColor: Colors.red,
-                          ),
-                          child: Text(
-                            "Cancel",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                          onPressed: () {
+                            if (!addTodoForm.currentState!.validate()) {
+                              return;
+                            }
+                            addTodoForm.currentState!.save();
+                            final Map<String, dynamic> formData = {
+                              "title": title,
+                              "description": description, // to api map
+                            };
+                            context.read<TodoBloc>().add(
+                              AddTodoEvent(formData: formData),
+                            );
+                          },
+                          child: Text("Add"),
                         );
                       },
+                    ),
+                    FilledButton.tonal(
+                      onPressed: () => Navigator.of(context).pop(),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),
